@@ -58,6 +58,16 @@ def browse():
         })
         print("Added "+books[brouse_choice-1]["title"]+" to your cart.")
 
+def view_cart():
+    print('--- Cart ---')
+    index = 1
+    price = 0
+    for item in cart:
+        print(f'{index}. Title: {cart[index-1]["title"]} | Author: {cart[index-1]["author"]} | Price: {cart[index-1]["price"]}$')
+        price += cart[index-1]["price"]
+        index+= 1
+        
+    print('Total price: '+str(price))
 with open("data.json", "w") as f:
     json.dump(data, f, indent=2)
 
@@ -76,3 +86,9 @@ while True:
 
     if choice == 1:
         browse()
+    elif choice == 2:
+        pass
+    elif choice == 3:
+        pass
+    elif choice == 4:
+        view_cart()
