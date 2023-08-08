@@ -37,7 +37,7 @@ data.append({
     "availability" : book3.availability
 })
 
-cart = []
+
 
 def browse():
     with open('data.json', 'r') as file:
@@ -47,17 +47,21 @@ def browse():
         for i in books:
             print(f'{index}. Title: {books[index-1]["title"]} | Author: {books[index-1]["author"]} | Genre: {books[index-1]["genre"]} | Price: {books[index-1]["price"]}$ | Availability: {books[index-1]["availability"]}')
             index+= 1
-    brouse_choice = int(input('Enter the number of the book to add to cart (or 0 to go back): '))
-    if brouse_choice == 0:
-        pass
-    elif brouse_choice <= len(books):
-        cart.append({
-            "title" : books[brouse_choice-1]["title"],
-            "author" : books[brouse_choice-1]["author"],
-            "price" : books[brouse_choice-1]["price"]
-        })
-        print("Added "+books[brouse_choice-1]["title"]+" to your cart.")
-
+    while True:
+        brouse_choice = int(input('Enter the number of the book to add to cart (or 0 to go back): '))
+        if brouse_choice == 0:
+            break
+        elif brouse_choice <= len(books):
+            cart.append({
+                "title" : books[brouse_choice-1]["title"],
+                "author" : books[brouse_choice-1]["author"],
+                "price" : books[brouse_choice-1]["price"]
+            })
+            print("Added "+books[brouse_choice-1]["title"]+" to your cart.")
+            break
+        else:
+            print('Invalid choice!')    
+cart = []
 def view_cart():
     print('--- Cart ---')
     index = 1
@@ -68,6 +72,31 @@ def view_cart():
         index+= 1
         
     print('Total price: '+str(price))
+
+def checkout():
+    global cart
+    print('--- Checkout ---')
+    print('Order summary:')
+    index = 1
+    price = 0
+    for item in cart:
+        print(f'{index}. Title: {cart[index-1]["title"]} | Author: {cart[index-1]["author"]} | Price: {cart[index-1]["price"]}$')
+        price += cart[index-1]["price"]
+        index+= 1
+        
+    print('Total price: '+str(price))
+    while True:
+        checkout_choice = input('Confirm your purchase (Y/N): ').upper()
+        if checkout_choice == 'Y':
+            print('Thank you for your purchase! Your order will be shipped soon.')
+            cart = []
+            break
+        elif checkout_choice == 'N':
+            break
+        else:
+            print('Invalid choice!')    
+
+
 with open("data.json", "w") as f:
     json.dump(data, f, indent=2)
 
@@ -92,3 +121,8 @@ while True:
         pass
     elif choice == 4:
         view_cart()
+    elif choice == 5:
+        checkout()
+    elif choice == 6:
+        print('Goodbye! Have a great day!')
+        quit()    
