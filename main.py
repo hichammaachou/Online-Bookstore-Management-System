@@ -96,11 +96,23 @@ def checkout():
         else:
             print('Invalid choice!')    
 
+def search_title():
+    usr_title = input('Enter book title: ')
+    index = 0
+    book_titles = []
+    for i in data:
+        book_title = data[index]['title']
+        book_titles.append(book_title)
+        index+= 1
+    
+    if usr_title in book_titles:
+        index = book_titles.index(usr_title)
+        print(f'{index+1}. Title: {data[index]["title"]} | Author: {data[index]["author"]} | Genre: {data[index]["genre"]} | Price: {data[index]["price"]}$ | Availability: {data[index]["availability"]}')
+
 
 with open("data.json", "w") as f:
     json.dump(data, f, indent=2)
 
-while True:
     print('''Welcome to the Online Bookstore!
 
     1. Browse Books
@@ -109,14 +121,18 @@ while True:
     4. View Cart
     5. Checkout
     6. Exit
+    
     ''')
+
+while True:
+
 
     choice = int(input('Enter your choice: '))
 
     if choice == 1:
         browse()
     elif choice == 2:
-        pass
+        search_title()
     elif choice == 3:
         pass
     elif choice == 4:
