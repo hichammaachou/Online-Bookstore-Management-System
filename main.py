@@ -108,7 +108,24 @@ def search_title():
     if usr_title in book_titles:
         index = book_titles.index(usr_title)
         print(f'{index+1}. Title: {data[index]["title"]} | Author: {data[index]["author"]} | Genre: {data[index]["genre"]} | Price: {data[index]["price"]}$ | Availability: {data[index]["availability"]}')
+    else:
+        print('Book unavailable!')    
 
+def search_genre():
+    usr_genre = input('Enter book genre: ')
+    index = 0
+    book_genres = []
+    for i in data:
+        book_genre = data[index]['genre']
+        book_genres.append(book_genre)
+        index+= 1
+    
+    for i, val in enumerate(book_genres):
+        if usr_genre == val:
+            print(f'{i+1}. Title: {data[i]["title"]} | Author: {data[i]["author"]} | Genre: {data[i]["genre"]} | Price: {data[i]["price"]}$ | Availability: {data[i]["availability"]}')
+
+    else:
+        print('No books in this genre.')    
 
 with open("data.json", "w") as f:
     json.dump(data, f, indent=2)
@@ -117,11 +134,12 @@ with open("data.json", "w") as f:
 
     1. Browse Books
     2. Search by Title
-    3. Search by Author
+    3. Search by Genre
     4. View Cart
     5. Checkout
-    6. Exit
-    
+    6. Menu
+    7. Exit
+
     ''')
 
 while True:
@@ -134,11 +152,22 @@ while True:
     elif choice == 2:
         search_title()
     elif choice == 3:
-        pass
+        search_genre()
     elif choice == 4:
         view_cart()
     elif choice == 5:
         checkout()
     elif choice == 6:
+        print('''
+    1. Browse Books
+    2. Search by Title
+    3. Search by Genre
+    4. View Cart
+    5. Checkout
+    6. Menu
+    7. Exit
+
+    ''')
+    elif choice == 7:
         print('Goodbye! Have a great day!')
         quit()    
