@@ -73,6 +73,9 @@ def view_cart():
         
     print('Total price: '+str(price))
 
+promo_codes25 = ["del25", "lol25"]
+promo_codes50 = ["del50", "lol50"]
+
 def checkout():
     global cart
     print('--- Checkout ---')
@@ -84,8 +87,15 @@ def checkout():
         price += cart[index-1]["price"]
         index+= 1
         
-    print('Total price: '+str(price))
+    print('Total price: '+str(price)+'$')
     while True:
+        promo_code = input('Enter your promo code (leave empty if you don\'t have one):')
+        if promo_code in promo_codes25:
+            price-= price*0.25
+            print('Total price: '+str(price)+'$')
+        elif promo_code in promo_codes50:
+            price-= price*0.5
+            print('Total price: '+str(price)+'$')    
         checkout_choice = input('Confirm your purchase (Y/N): ').upper()
         if checkout_choice == 'Y':
             print('Thank you for your purchase! Your order will be shipped soon.')
@@ -95,6 +105,8 @@ def checkout():
             break
         else:
             print('Invalid choice!')    
+
+
 
 def search_title():
     usr_title = input('Enter book title: ')
@@ -130,7 +142,7 @@ def search_genre():
 with open("data.json", "w") as f:
     json.dump(data, f, indent=2)
 
-    print('''Welcome to the Online Bookstore!
+print('''Welcome to the Online Bookstore!
 
     1. Browse Books
     2. Search by Title
