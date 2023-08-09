@@ -7,9 +7,15 @@ class Book:
         self.genre = genre
         self.price = price
         self.availability = availability
+class User:
+    def __init__(self, username, password, email):
+        self.username = username
+        self.password = password
+        self.email = email
 
-
-data = []  
+data = []
+user_data = []
+existing_usrdata = []
 
 book1 = Book("The Great Gatsby", "F. Scott Fitzgerald", "Classic", 10.99, "In stock")
 book2 = Book("Harry Potter and the Sorcerer's Stone", "J.K. Rowling", "Fantasy", 12.99, "In stock")
@@ -142,44 +148,91 @@ def search_genre():
 with open("data.json", "w") as f:
     json.dump(data, f, indent=2)
 
+
 print('''Welcome to the Online Bookstore!
-
-    1. Browse Books
-    2. Search by Title
-    3. Search by Genre
-    4. View Cart
-    5. Checkout
-    6. Menu
-    7. Exit
-
-    ''')
+1. Sign on
+2. Sign in
+''')
 
 while True:
+    loop = True
+    while loop:
+        while True:
+            try:
+                log_choice = int(input('Enter your choice: '))
+                break
+            except ValueError:
+                print('Invalid choice!')  
+        with open('users.json', 'r') as file:
+            existing_usrdata = json.load(file)
+        if log_choice == 1:
+            username = input('Enter a username: ')
+            password = input('Enter a password: ')
+            email = input('Enter your email: ')
+            user1 = User(username, password, email)
+            user_data.append({
+                "username" : user1.username,
+                "password" : user1.password,
+                "email" : user1.email
+            })
+            existing_usrdata.extend(user_data)
+            with open('users.json', 'w') as file:
+                json.dump(existing_usrdata, file, indent=2)
+            print('Account created successfully')    
+        elif log_choice == 2:
+            username = input('Enter your username: ')
+            password = input('Enter your password: ')
+            for i in existing_usrdata:
+                if username == i["username"]:
+                    if password == i["password"]:
+                        loop = False
+                        
+        else:
+            print('Invalid choice!')                
 
 
-    choice = int(input('Enter your choice: '))
+    print(f'''Welcome {username} to the Online Bookstore!
 
-    if choice == 1:
-        browse()
-    elif choice == 2:
-        search_title()
-    elif choice == 3:
-        search_genre()
-    elif choice == 4:
-        view_cart()
-    elif choice == 5:
-        checkout()
-    elif choice == 6:
-        print('''
-    1. Browse Books
-    2. Search by Title
-    3. Search by Genre
-    4. View Cart
-    5. Checkout
-    6. Menu
-    7. Exit
+        1. Browse Books
+        2. Search by Title
+        3. Search by Genre
+        4. View Cart
+        5. Checkout
+        6. Menu
+        7. Exit
 
-    ''')
-    elif choice == 7:
-        print('Goodbye! Have a great day!')
-        quit()    
+        ''')
+
+    while True:
+
+        while True:
+            try:
+                choice = int(input('Enter your choice: '))
+                break
+            except ValueError:
+                print('Invalid choice!')
+
+        if choice == 1:
+            browse()
+        elif choice == 2:
+            search_title()
+        elif choice == 3:
+            search_genre()
+        elif choice == 4:
+            view_cart()
+        elif choice == 5:
+            checkout()
+        elif choice == 6:
+            print('''
+        1. Browse Books
+        2. Search by Title
+        3. Search by Genre
+        4. View Cart
+        5. Checkout
+        6. Menu
+        7. Exit
+
+        ''')
+        elif choice == 7:
+            print('Goodbye! Have a great day!')
+            quit()    
